@@ -13,3 +13,4 @@ $HOSTNAME {
 }
 EOF
 echo "Caddyfile has been generated with hostname '$HOSTNAME' at $CADDYFILE"
+docker-compose up -d
