@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  srs:
+    image: ossrs/srs:v6.0.155
+    container_name: srs
+    ports:
+      - "1935:1935" # RTMP
+      - "1985:1985" # HTTP API
+      - "8080:8080" # HTTP stream (FLV/HLS)
+      - "8000:8000" # WebRTC Server
+    networks:
+      - srs_network
+
+  caddy:
+    image: caddy:latest
+    container_name: caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - srs_network
+
+networks:
+  srs_network:
+
+volumes:
+  caddy_data:
+  caddy_config:
